@@ -1,4 +1,3 @@
-
 #include <IRremote.h>      //Librería para IR
 
 IRsend irsend;            //Se transmitirán paquetes remotos IR por medio de la variable irsend,
@@ -10,29 +9,36 @@ decode_results results;   // decoficación de los paquetes enviados por ky-005
 
 void setup()
 {
+ 
   Serial.begin(9600);                   //Iniciando puerto serial en 9600 bauds
-  irrecv.enableIRIn();                    // Habilita la recepción de datos
+  irrecv.enableIRIn();
 }
 
 void loop() {
 
+  
+ receptor2();
  emisor1();
-receptor2();
+
 }
-void emisor1(){
 
-  irsend.sendNEC(0x00000001, 32);     //se enviara un "A" un mensaje de 8bits
- // Serial.println("send");            
-  delay(1000);                 
-  }
+/*Receptor 2*/
 
-/*Receptor 1*/
-/*el que recibe la "A"*/
 
 void receptor2(){
-  if ((irrecv.decode(&results))==0x00000001) {        // Cuando se recibe una U
-    Serial.println(results.value, HEX);   // impresión de los valores recibidos en formato hexadecimal
+  if ((irrecv.decode(&results))==1) {        // Cuando se recibe un 1
+    Serial.println(results.value, HEX);   // impresión de los valores recibidos en formato hexadecimal lo traduce en 2
     irrecv.resume();                      // Después de recibir, se debe llamar a este para restablecer el receptor y prepararlo para recibir otro código
   }
-  delay (100);                            // espera para el siguiente valor
+  delay (1000);                            // espera para el siguiente valor
 }
+
+//emisor1
+void emisor1(){
+
+  irsend.sendNEC(0x00000002, 32);     //se enviara un no se sabe
+  Serial.println("send");            //se imprimirá "send" como confirmación
+  delay(1000);                 //esperaremos 100ms
+  
+  }
+/*conseguir 4 protoboards pequenos*/
